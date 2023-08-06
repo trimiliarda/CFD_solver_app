@@ -21,7 +21,7 @@ public:
   Polygon(point_t *p1, int n1);
   ~Polygon();
 
-  void DataEntry(string filename);
+  void load_data(string filename);
   point_t Center();
   double Square();
 

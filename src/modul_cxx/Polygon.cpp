@@ -57,7 +57,7 @@ double Polygon::Square() {
   return labs(A);
 }
 
-void Polygon::DataEntry(string filename) {
+void Polygon::load_data(string filename) {
   int n1;
   point_t *p1;
   ifstream reading(filename);

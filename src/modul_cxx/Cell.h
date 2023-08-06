@@ -16,7 +16,7 @@ private:
   int *faces; //  номера граней
   int *nodes; //  номера узлов
 
-  int *type_f; //  тип граней: внутр \ граничная
+  int *fType; //  тип граней: внутр \ граничная
 
   int *cells; //  номкра соседних ячеек
 
@@ -35,4 +35,10 @@ public:
   void set_S(double S_) { S = S_; }
   void set_nFaces(int nf);
   void set_nNodes(int nn);
+  void set_Nodes(int *nodes_, int nn);
+  void set_Face(int iFace, int fIndex) { faces[iFace] = fIndex; }
+  void set_fType(int iFace, int fType) { faces[iFace] = fType; }
+  void set_cells(int iFace, int cell) { cells[iFace] = cell; }
+
+  void show(int i);
 };
