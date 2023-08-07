@@ -1,7 +1,6 @@
+#pragma once
 #include "Polygon.h"
 
-#define INNER 0
-#define BOUND 1
 
 using namespace std;
 
@@ -37,7 +36,7 @@ public:
   void set_nNodes(int nn);
   void set_Nodes(int *nodes_, int nn);
   void set_Face(int iFace, int fIndex) { faces[iFace] = fIndex; }
-  void set_fType(int iFace, int fType) { faces[iFace] = fType; }
+  void set_fType(int iFace, int new_fType) { fType[iFace] = new_fType; }
   void set_cells(int iFace, int cell) { cells[iFace] = cell; }
 
   void show(int i);

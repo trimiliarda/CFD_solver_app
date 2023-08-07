@@ -1,0 +1,192 @@
+			cell index = 0
+center = 0.5, 0.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 1
+ind = 1, type = 1
+ind = 2, type = 1
+ind = 3, type = 1
+number of nodes = 4
+node indexes:
+	ind = 0
+	ind = 4
+	ind = 5
+	ind = 1
+****************************************************
+			cell index = 1
+center = 0.5, 1.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 1
+ind = 1, type = 1
+ind = 2, type = 1
+ind = 3, type = 1
+number of nodes = 4
+node indexes:
+	ind = 1
+	ind = 5
+	ind = 6
+	ind = 2
+****************************************************
+			cell index = 2
+center = 0.5, 2.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 1
+ind = 1, type = 1
+ind = 2, type = 1
+ind = 3, type = 1
+number of nodes = 4
+node indexes:
+	ind = 2
+	ind = 6
+	ind = 7
+	ind = 3
+****************************************************
+			cell index = 3
+center = 1.5, 0.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 1
+ind = 1, type = 1
+ind = 2, type = 1
+ind = 3, type = 1
+number of nodes = 4
+node indexes:
+	ind = 4
+	ind = 8
+	ind = 9
+	ind = 5
+****************************************************
+			cell index = 4
+center = 1.5, 1.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 0
+ind = 1, type = 0
+ind = 2, type = 0
+ind = 3, type = 0
+number of nodes = 4
+node indexes:
+	ind = 5
+	ind = 9
+	ind = 10
+	ind = 6
+****************************************************
+			cell index = 5
+center = 1.5, 2.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 0
+ind = 1, type = 0
+ind = 2, type = 0
+ind = 3, type = 0
+number of nodes = 4
+node indexes:
+	ind = 6
+	ind = 10
+	ind = 11
+	ind = 7
+****************************************************
+			cell index = 6
+center = 2.5, 0.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 33
+ind = 1, type = 33
+ind = 2, type = 33
+ind = 3, type = 33
+number of nodes = 4
+node indexes:
+	ind = 8
+	ind = 12
+	ind = 13
+	ind = 9
+****************************************************
+			cell index = 7
+center = 2.5, 1.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 0
+ind = 1, type = 0
+ind = 2, type = 0
+ind = 3, type = 0
+number of nodes = 4
+node indexes:
+	ind = 9
+	ind = 13
+	ind = 14
+	ind = 10
+****************************************************
+			cell index = 8
+center = 2.5, 2.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 0
+ind = 1, type = 0
+ind = 2, type = 0
+ind = 3, type = 0
+number of nodes = 4
+node indexes:
+	ind = 10
+	ind = 14
+	ind = 15
+	ind = 11
+****************************************************
+			cell index = 9
+center = 3.5, 0.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 1
+ind = 1, type = 1
+ind = 2, type = 1
+ind = 3, type = 1
+number of nodes = 4
+node indexes:
+	ind = 12
+	ind = 16
+	ind = 17
+	ind = 13
+****************************************************
+			cell index = 10
+center = 3.5, 1.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 2
+ind = 1, type = 2
+ind = 2, type = 2
+ind = 3, type = 2
+number of nodes = 4
+node indexes:
+	ind = 13
+	ind = 17
+	ind = 18
+	ind = 14
+****************************************************
+			cell index = 11
+center = 3.5, 2.5
+square = 1
+number of faces = 4
+face indexes and types:
+ind = 0, type = 2020879987
+ind = 1, type = 2020879987
+ind = 2, type = 2020879987
+ind = 3, type = 2020879987
+number of nodes = 4
+node indexes:
+	ind = 14
+	ind = 18
+	ind = 19
+	ind = 15
+****************************************************

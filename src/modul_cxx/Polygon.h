@@ -1,3 +1,4 @@
+#pragma once
 #include <fstream>
 #include <iostream>
 #include <ostream>
@@ -18,6 +19,7 @@ private:
 
 public:
   Polygon();
+  Polygon(int n1);
   Polygon(point_t *p1, int n1);
   ~Polygon();
 

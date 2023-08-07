@@ -4,6 +4,10 @@ using namespace std;
 
 Polygon::Polygon() : n(0) { p = new point_t[0]; }
 
+Polygon::Polygon(int n1) : n(n1) {
+  p = new point_t[n];
+}
+
 Polygon::Polygon(point_t *p1, int n1) : n(n1) {
   p = new point_t[n];
   for (int i = 0; i < n; i++)

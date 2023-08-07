@@ -1,4 +1,5 @@
-#include <math.h>
+#include <math.h> 
+#include <algorithm>
 
 #include "Mesh.h"
 
@@ -29,8 +30,6 @@ void Mesh::load_struct_mesh(string filename) {
         ++k;
       }
     }
-    // k = 9;
-    // cout << nodes[k].x << nodes[k].y << endl;
 
   } else {
     cout << "Error: file \"" << filename << "\" can\'t open" << endl;
@@ -39,13 +38,11 @@ void Mesh::load_struct_mesh(string filename) {
 }
 
 void Mesh::create_cells(Cell *(&cells)) {
-  // cout << Nx << endl;
-  // cout << Ny << endl;
   for (int i = 0; i < Nx - 1; i++) {
     for (int j = 0; j < Ny - 1; j++) {
       int nc = (Ny - 1) * i + j;
 
-      cout << "nc = " << nc << endl;
+      // cout << "nc = " << nc << endl;
 
       int nNodes = 4; //  число узлов вокруг ячейки
       int *nodes = new int[nNodes];
@@ -71,29 +68,32 @@ void Mesh::create_cells(Cell *(&cells)) {
   }
 }
 
-
 void Mesh::create_faces() {
   faces = new Face[nFaces];
   int k = 0;
+  //  вертикальный грани
   for (int i = 0; i < Nx; i++) {
     for (int j = 0; j < Ny - 1; j++) {
       int n1 = Ny * i + j;
       int n2 = Ny * i + j + 1;
       faces[k].nodes[0] = n1;
-      faces[k].nodes[0] = n2;
+      faces[k].nodes[1] = n2;
       
       if (i == 0) {
         faces[k].is_bound = true;
         faces[k].cr = -1;
-        faces[k].cr = (Ny - 1) * i + j;
+        faces[k].cl = (Ny - 1) * i + j;
+        faces[k].zone = BOUND_Left;
       } else if (i == Nx - 1) {
         faces[k].is_bound = true;
         faces[k].cr = (Ny - 1) * (i - 1) + j;
-        faces[k].cr = -1;
+        faces[k].cl = -1;
+        faces[k].zone = BOUND_Right;
       } else {
         faces[k].is_bound = false;
-        faces[k].cr = -1;
-        faces[k].cr = (Ny - 1) * i + j;
+        faces[k].cr = (Ny - 1) * (i - 1) + j;
+        faces[k].cl = (Ny - 1) * i + j;
+        faces[k].zone = INNER;
       }
       faces[k].f_centr.x = 0.5 * (nodes[n1].x + nodes[n2].x);
       faces[k].f_centr.y = 0.5 * (nodes[n1].y + nodes[n2].y);
@@ -103,8 +103,107 @@ void Mesh::create_faces() {
 
       faces[k].length = sqrt(dx * dx + dy * dy);
 
-      // faces[k].show();
+      faces[k].show(k);
       ++k;
     }
   }
+  //  горизонтальные грани
+  for (int j = 0; j < Ny; j++) {
+    for (int i = 0; i < Nx - 1; i++)  {
+      int n1 = Ny * i + j;
+      int n2 = Ny * (i + 1) + j;
+      faces[k].nodes[0] = n1;
+      faces[k].nodes[1] = n2;
+      
+      if (j == 0) {
+        faces[k].is_bound = true;
+        faces[k].cr = (Ny - 1) * i + j;
+        faces[k].cl = -1;
+        faces[k].zone = BOUND_Bottom;
+      } else if (j == Ny - 1) {
+        faces[k].is_bound = true;
+        faces[k].cr = -1;
+        faces[k].cl = (Ny - 1) * i + j - 1;
+        faces[k].zone = BOUND_Up;
+      } else {
+        faces[k].is_bound = false;
+        faces[k].cr = (Ny - 1) * i + j;
+        faces[k].cl = (Ny - 1) * i + j - 1;
+        faces[k].zone = INNER;
+      }
+      faces[k].f_centr.x = 0.5 * (nodes[n1].x + nodes[n2].x);
+      faces[k].f_centr.y = 0.5 * (nodes[n1].y + nodes[n2].y);
+
+      double dx = (nodes[n1].x - nodes[n2].x);
+      double dy = (nodes[n1].y - nodes[n2].y);
+
+      faces[k].length = sqrt(dx * dx + dy * dy);
+
+      // faces[k].show(k);
+      ++k;
+    }
+  }
+}
+
+
+
+void  Mesh::cell_funcs(Cell *(&cells)) {
+  for (int i = 0; i < nCells; i++) {
+    // Cell c(cells[i]);
+    int n = cells[i].get_nNodes(); // 4
+    Polygon pl(n);
+    for (int k = 0; k < n; k++) {
+      pl.set_p(k, nodes[cells[i].get_Node(k)]);
+    }
+    cells[i].set_c(pl.Center());
+    cells[i].set_S(pl.Square());
+    cells[i].set_nFaces(4);
+
+    vector<int> v = {cells[i].get_Node(0), cells[i].get_Node(1), cells[i].get_Node(2), cells[i].get_Node(3)};
+    sort(v.begin(), v.end());
+    cout << *v.begin() << " " << *--v.end() << endl;
+    cells[i].set_Face(0, 0);
+    cells[i].set_fType(0, 1);
+    cells[i].set_Face(1, 1);
+    cells[i].set_fType(1, 1);
+    cells[i].set_Face(2, 2);
+    cells[i].set_fType(2, 1);
+    cells[i].set_Face(3, 3);
+    cells[i].set_fType(3, 1);
+
+    // for (int k = 0; k < nFaces; k++) {
+      
+    //   switch (faces[k].nodes[0])
+    //   {
+    //   case cells[i].get_Face(0):
+    //     /* code */
+    //     break;
+      
+    //   default:
+    //     break;
+    //   }
+    //   if (faces[k].nodes[0] < faces[k].nodes[1] && cells[i].get_Face(0))
+    // }
+  }
+}
+
+
+void show(face_t f) {
+  string fname = "../data/faces.txt";
+  ofstream record(fname, ios::out | ios::app);
+
+  if (record) {
+    record << "\t\tfaces nodes[0] = " << f.nodes[0] << endl;
+    record << "\t\tfaces nodes[1] = " << f.nodes[1] << endl;
+    record << "cr = " << f.cr << ", cl = " << f.cl << endl;
+    record << "is_bound = " << f.is_bound << endl;
+    record << "length = " << f.length << endl;
+    record << "f_centr: x = " << f.f_centr.x << ", y = " << f.f_centr.y << endl;
+    
+    record << "****************************************************" << endl;
+
+  } else {
+    cout << "Problem with file: " << fname << endl;
+  }
+  record.close();
 }

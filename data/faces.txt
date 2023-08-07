@@ -1,0 +1,217 @@
+		faces nodes[0] = 0
+		faces nodes[1] = 1
+cr = -1, cl = 0
+is_bound = 1
+length = 1
+f_centr: x = 0, y = 0.5
+****************************************************
+		faces nodes[0] = 1
+		faces nodes[1] = 2
+cr = -1, cl = 1
+is_bound = 1
+length = 1
+f_centr: x = 0, y = 1.5
+****************************************************
+		faces nodes[0] = 2
+		faces nodes[1] = 3
+cr = -1, cl = 2
+is_bound = 1
+length = 1
+f_centr: x = 0, y = 2.5
+****************************************************
+		faces nodes[0] = 4
+		faces nodes[1] = 5
+cr = 0, cl = 3
+is_bound = 0
+length = 1
+f_centr: x = 1, y = 0.5
+****************************************************
+		faces nodes[0] = 5
+		faces nodes[1] = 6
+cr = 1, cl = 4
+is_bound = 0
+length = 1
+f_centr: x = 1, y = 1.5
+****************************************************
+		faces nodes[0] = 6
+		faces nodes[1] = 7
+cr = 2, cl = 5
+is_bound = 0
+length = 1
+f_centr: x = 1, y = 2.5
+****************************************************
+		faces nodes[0] = 8
+		faces nodes[1] = 9
+cr = 3, cl = 6
+is_bound = 0
+length = 1
+f_centr: x = 2, y = 0.5
+****************************************************
+		faces nodes[0] = 9
+		faces nodes[1] = 10
+cr = 4, cl = 7
+is_bound = 0
+length = 1
+f_centr: x = 2, y = 1.5
+****************************************************
+		faces nodes[0] = 10
+		faces nodes[1] = 11
+cr = 5, cl = 8
+is_bound = 0
+length = 1
+f_centr: x = 2, y = 2.5
+****************************************************
+		faces nodes[0] = 12
+		faces nodes[1] = 13
+cr = 6, cl = 9
+is_bound = 0
+length = 1
+f_centr: x = 3, y = 0.5
+****************************************************
+		faces nodes[0] = 13
+		faces nodes[1] = 14
+cr = 7, cl = 10
+is_bound = 0
+length = 1
+f_centr: x = 3, y = 1.5
+****************************************************
+		faces nodes[0] = 14
+		faces nodes[1] = 15
+cr = 8, cl = 11
+is_bound = 0
+length = 1
+f_centr: x = 3, y = 2.5
+****************************************************
+		faces nodes[0] = 16
+		faces nodes[1] = 17
+cr = 9, cl = -1
+is_bound = 1
+length = 1
+f_centr: x = 4, y = 0.5
+****************************************************
+		faces nodes[0] = 17
+		faces nodes[1] = 18
+cr = 10, cl = -1
+is_bound = 1
+length = 1
+f_centr: x = 4, y = 1.5
+****************************************************
+		faces nodes[0] = 18
+		faces nodes[1] = 19
+cr = 11, cl = -1
+is_bound = 1
+length = 1
+f_centr: x = 4, y = 2.5
+****************************************************
+		faces nodes[0] = 0
+		faces nodes[1] = 4
+cr = 0, cl = -1
+is_bound = 1
+length = 1
+f_centr: x = 0.5, y = 0
+****************************************************
+		faces nodes[0] = 4
+		faces nodes[1] = 8
+cr = 3, cl = -1
+is_bound = 1
+length = 1
+f_centr: x = 1.5, y = 0
+****************************************************
+		faces nodes[0] = 8
+		faces nodes[1] = 12
+cr = 6, cl = -1
+is_bound = 1
+length = 1
+f_centr: x = 2.5, y = 0
+****************************************************
+		faces nodes[0] = 12
+		faces nodes[1] = 16
+cr = 9, cl = -1
+is_bound = 1
+length = 1
+f_centr: x = 3.5, y = 0
+****************************************************
+		faces nodes[0] = 1
+		faces nodes[1] = 5
+cr = 1, cl = 0
+is_bound = 0
+length = 1
+f_centr: x = 0.5, y = 1
+****************************************************
+		faces nodes[0] = 5
+		faces nodes[1] = 9
+cr = 4, cl = 3
+is_bound = 0
+length = 1
+f_centr: x = 1.5, y = 1
+****************************************************
+		faces nodes[0] = 9
+		faces nodes[1] = 13
+cr = 7, cl = 6
+is_bound = 0
+length = 1
+f_centr: x = 2.5, y = 1
+****************************************************
+		faces nodes[0] = 13
+		faces nodes[1] = 17
+cr = 10, cl = 9
+is_bound = 0
+length = 1
+f_centr: x = 3.5, y = 1
+****************************************************
+		faces nodes[0] = 2
+		faces nodes[1] = 6
+cr = 2, cl = 1
+is_bound = 0
+length = 1
+f_centr: x = 0.5, y = 2
+****************************************************
+		faces nodes[0] = 6
+		faces nodes[1] = 10
+cr = 5, cl = 4
+is_bound = 0
+length = 1
+f_centr: x = 1.5, y = 2
+****************************************************
+		faces nodes[0] = 10
+		faces nodes[1] = 14
+cr = 8, cl = 7
+is_bound = 0
+length = 1
+f_centr: x = 2.5, y = 2
+****************************************************
+		faces nodes[0] = 14
+		faces nodes[1] = 18
+cr = 11, cl = 10
+is_bound = 0
+length = 1
+f_centr: x = 3.5, y = 2
+****************************************************
+		faces nodes[0] = 3
+		faces nodes[1] = 7
+cr = -1, cl = 2
+is_bound = 1
+length = 1
+f_centr: x = 0.5, y = 3
+****************************************************
+		faces nodes[0] = 7
+		faces nodes[1] = 11
+cr = -1, cl = 5
+is_bound = 1
+length = 1
+f_centr: x = 1.5, y = 3
+****************************************************
+		faces nodes[0] = 11
+		faces nodes[1] = 15
+cr = -1, cl = 8
+is_bound = 1
+length = 1
+f_centr: x = 2.5, y = 3
+****************************************************
+		faces nodes[0] = 15
+		faces nodes[1] = 19
+cr = -1, cl = 11
+is_bound = 1
+length = 1
+f_centr: x = 3.5, y = 3
+****************************************************
