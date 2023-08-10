@@ -1,8 +1,14 @@
 #pragma once
 #include "Polygon.h"
 
-
 using namespace std;
+
+// cx;
+typedef struct Vector
+{
+  double * cx;
+} vector_t;
+
 
 class Cell {
 private:
@@ -12,14 +18,19 @@ private:
   int nFaces; //  число граней
   int nNodes; //  число  узлов
 
-  int *faces; //  номера граней
   int *nodes; //  номера узлов
 
+  int *faces; //  номера граней
   int *fType; //  тип граней: внутр \ граничная
 
   int *cells; //  номкра соседних ячеек
 
 public:
+  double Yw; //  расстояние от ц. ячейки до стенки
+
+  double * wk;  // [nFace]
+  vector_t * ck;
+
   Cell();
   ~Cell();
 
@@ -29,6 +40,7 @@ public:
   int get_nNodes() { return nNodes; }
   int get_Node(int i) { return i < nNodes ? nodes[i] : -1; }
   int get_Face(int i) { return i < nFaces ? faces[i] : -1; }
+  int get_Cell(int i) { return i < nFaces ? cells[i] : -1; }
 
   void set_c(point_t c_);
   void set_S(double S_) { S = S_; }

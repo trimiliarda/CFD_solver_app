@@ -17,6 +17,7 @@ void Cell::set_nFaces(int nf) {
   nFaces = nf;
   faces = new int[nFaces];
   fType = new int[nFaces];
+  cells = new int[nFaces];
 }
 
 void Cell::set_nNodes(int nn) {
@@ -42,8 +43,8 @@ void Cell::show(int i) {
     record << "square = " << S << endl;
     record << "number of faces = " << nFaces << endl;
     record << "face indexes and types:" << endl;
-    for (int j=0; j < nFaces; j++) {
-      record << "ind = " << faces[j] << ", type = " << fType[i] << endl;
+    for (int j = 0; j < nFaces; j++) {
+      record << "\tind = " << faces[j] << ", type = " << fType[j] << endl;
     }
 
     record << "number of nodes = " << nNodes << endl;
@@ -52,10 +53,10 @@ void Cell::show(int i) {
       record << "\tind = " << nodes[j] << endl;
     }
 
-    // record << "neighbour indexes: " << endl;
-    // for (int j=0; j < nFaces; j++) {
-    //   record << "\t\tind = " << cells[j] << endl;
-    // }
+    record << "neighbour indexes: " << endl;
+    for (int j = 0; j < nFaces; j++) {
+      record << "\tind = " << cells[j] << endl;
+    }
     record << "****************************************************" << endl;
 
   } else {
@@ -63,4 +64,3 @@ void Cell::show(int i) {
   }
   record.close();
 }
-

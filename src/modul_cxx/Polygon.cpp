@@ -4,9 +4,7 @@ using namespace std;
 
 Polygon::Polygon() : n(0) { p = new point_t[0]; }
 
-Polygon::Polygon(int n1) : n(n1) {
-  p = new point_t[n];
-}
+Polygon::Polygon(int n1) : n(n1) { p = new point_t[n]; }
 
 Polygon::Polygon(point_t *p1, int n1) : n(n1) {
   p = new point_t[n];
@@ -27,7 +25,7 @@ point_t Polygon::Center() {
   pm[n].y = p[0].y;
 
   double A = 0., Cx = 0., Cy = 0.;
-  for (int i = 0; i < m; i++) {
+  for (int i = 0; i < n; i++) {
     A += pm[i].x * pm[i + 1].y - pm[i + 1].x * pm[i].y;
     Cx += (pm[i].x + pm[i + 1].x) *
           (pm[i].x * pm[i + 1].y - pm[i + 1].x * pm[i].y);
@@ -53,12 +51,12 @@ double Polygon::Square() {
   pm[n].y = p[0].y;
 
   double A = 0.;
-  for (int i = 0; i < m; i++) {
+  for (int i = 0; i < n; i++) {
     A += pm[i].x * pm[i + 1].y - pm[i + 1].x * pm[i].y;
   }
   A /= 2.;
 
-  return labs(A);
+  return abs(A);
 }
 
 void Polygon::load_data(string filename) {

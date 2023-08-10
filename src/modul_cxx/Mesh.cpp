@@ -1,5 +1,5 @@
-#include <math.h> 
 #include <algorithm>
+#include <math.h>
 
 #include "Mesh.h"
 
@@ -78,7 +78,7 @@ void Mesh::create_faces() {
       int n2 = Ny * i + j + 1;
       faces[k].nodes[0] = n1;
       faces[k].nodes[1] = n2;
-      
+
       if (i == 0) {
         faces[k].is_bound = true;
         faces[k].cr = -1;
@@ -103,18 +103,18 @@ void Mesh::create_faces() {
 
       faces[k].length = sqrt(dx * dx + dy * dy);
 
-      faces[k].show(k);
+      // faces[k].show(k);
       ++k;
     }
   }
   //  горизонтальные грани
   for (int j = 0; j < Ny; j++) {
-    for (int i = 0; i < Nx - 1; i++)  {
+    for (int i = 0; i < Nx - 1; i++) {
       int n1 = Ny * i + j;
       int n2 = Ny * (i + 1) + j;
       faces[k].nodes[0] = n1;
       faces[k].nodes[1] = n2;
-      
+
       if (j == 0) {
         faces[k].is_bound = true;
         faces[k].cr = (Ny - 1) * i + j;
@@ -146,8 +146,76 @@ void Mesh::create_faces() {
 }
 
 
+  void Mesh::grad_coeffs(Cell * (&cells)) 
+  {
+    for (int i = 0; i < nCells; i++) {
+      int nFaces = cells[i].get_nFaces();
 
-void  Mesh::cell_funcs(Cell *(&cells)) {
+      //  создаём массивы весовых коэффициентов wk и векторов ck
+      cells[i].wk = new double[nFaces];
+      cells[i].ck = new vector_t[nFaces];
+
+      int i_dim = 2;
+
+      for (int k = 0; k < nFaces; k++) {
+        cells[i].ck[k].cx = new double[i_dim];
+      }
+
+      point_t xc = cells[i].get_c();
+
+      double * dx = new double[nFaces];
+      double * dy = new double[nFaces];
+
+      double axx = 0., axy = 0., ayy = 0.;
+
+      for (int k = 0; k < nFaces; k++) {
+        int nf = cells[i].get_Face(k);
+        if ( !faces[nf].is_bound) {
+          int nc = cells[i].get_Cell(k);
+          point_t xk = cells[i].get_c();
+
+          dx[k] = xk.x - xc.x;
+          dy[k] = xk.y - xc.y;
+
+        } else {
+          
+          point_t xk = faces[nf].f_centr;
+
+          dx[k] = xk.x - xc.x;
+          dy[k] = xk.y - xc.y;
+        }
+
+        double wk = 1. / sqrt(dx[k] * dx[k] + dy[k] * dy[k]);
+        cells[i].wk[k] = wk;
+
+        axx += wk * dx[k] * dx[k];
+        axy += wk * dx[k] * dy[k];
+        ayy += wk * dy[k] * dy[k];
+
+      }
+
+      double det = axx * ayy - axy * axy;
+      double Mxx, Mxy, Myy;
+
+      Mxx = ayy / det;
+      Mxy = -axy / det;
+      Myy = axx / det;
+
+      for (int k = 0; k < nFaces; k++){
+        cells[i].ck[k].cx[0] = Mxx * dx[k] + Mxy * dy[k];
+        cells[i].ck[k].cx[1] = Mxy * dx[k] + Myy * dy[k];
+      }
+
+    }
+
+  }
+
+void Mesh::set_zones() {
+  nZone = 4;
+  zones = new zone_t[nZone];
+}
+
+void Mesh::cell_funcs(Cell *(&cells)) {
   for (int i = 0; i < nCells; i++) {
     // Cell c(cells[i]);
     int n = cells[i].get_nNodes(); // 4
@@ -157,53 +225,36 @@ void  Mesh::cell_funcs(Cell *(&cells)) {
     }
     cells[i].set_c(pl.Center());
     cells[i].set_S(pl.Square());
-    cells[i].set_nFaces(4);
+    cells[i].set_nFaces(n);
 
-    vector<int> v = {cells[i].get_Node(0), cells[i].get_Node(1), cells[i].get_Node(2), cells[i].get_Node(3)};
-    sort(v.begin(), v.end());
-    cout << *v.begin() << " " << *--v.end() << endl;
-    cells[i].set_Face(0, 0);
-    cells[i].set_fType(0, 1);
-    cells[i].set_Face(1, 1);
-    cells[i].set_fType(1, 1);
-    cells[i].set_Face(2, 2);
-    cells[i].set_fType(2, 1);
-    cells[i].set_Face(3, 3);
-    cells[i].set_fType(3, 1);
+    int f_index;
 
-    // for (int k = 0; k < nFaces; k++) {
-      
-    //   switch (faces[k].nodes[0])
-    //   {
-    //   case cells[i].get_Face(0):
-    //     /* code */
-    //     break;
-      
-    //   default:
-    //     break;
-    //   }
-    //   if (faces[k].nodes[0] < faces[k].nodes[1] && cells[i].get_Face(0))
-    // }
+    f_index = min(cells[i].get_Node(0), cells[i].get_Node(1)); // 0
+    f_index = Nx * (Ny - 1) + f_index / Ny + Ny * (f_index % Ny);
+    cells[i].set_Face(0, f_index);
+    cells[i].set_fType(0, faces[f_index].is_bound);
+    cells[i].set_cells(0, faces[f_index].cl == i ? faces[f_index].cr
+                                                 : faces[f_index].cl);
+
+    f_index = min(cells[i].get_Node(1), cells[i].get_Node(2)); // 1
+    f_index -= f_index / Ny;
+    cells[i].set_Face(1, f_index);
+    cells[i].set_fType(1, faces[f_index].is_bound);
+    cells[i].set_cells(1, faces[f_index].cl == i ? faces[f_index].cr
+                                                 : faces[f_index].cl);
+
+    f_index = min(cells[i].get_Node(2), cells[i].get_Node(3)); // 3
+    f_index = Nx * (Ny - 1) + f_index / Ny + Ny * (f_index % Ny);
+    cells[i].set_Face(2, f_index);
+    cells[i].set_fType(2, faces[f_index].is_bound);
+    cells[i].set_cells(2, faces[f_index].cl == i ? faces[f_index].cr
+                                                 : faces[f_index].cl);
+
+    f_index = min(cells[i].get_Node(0), cells[i].get_Node(3)); // 0
+    f_index -= f_index / Ny;
+    cells[i].set_Face(3, f_index);
+    cells[i].set_fType(3, faces[f_index].is_bound);
+    cells[i].set_cells(3, faces[f_index].cl == i ? faces[f_index].cr
+                                                 : faces[f_index].cl);
   }
-}
-
-
-void show(face_t f) {
-  string fname = "../data/faces.txt";
-  ofstream record(fname, ios::out | ios::app);
-
-  if (record) {
-    record << "\t\tfaces nodes[0] = " << f.nodes[0] << endl;
-    record << "\t\tfaces nodes[1] = " << f.nodes[1] << endl;
-    record << "cr = " << f.cr << ", cl = " << f.cl << endl;
-    record << "is_bound = " << f.is_bound << endl;
-    record << "length = " << f.length << endl;
-    record << "f_centr: x = " << f.f_centr.x << ", y = " << f.f_centr.y << endl;
-    
-    record << "****************************************************" << endl;
-
-  } else {
-    cout << "Problem with file: " << fname << endl;
-  }
-  record.close();
 }

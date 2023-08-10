@@ -8,6 +8,10 @@ all:
 	./$(BUILD)main
 	rm $(BUILD)main
 
+build:
+	g++ $(SRC)*.cpp  -o $(BUILD)main
+
+
 #======================================== Style    ====================================================================
 style:
 	clang-format -i $(SRC)*.cpp $(SRC)*.h
