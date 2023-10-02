@@ -18,21 +18,20 @@ typedef struct Changes {
   double *dU;
 } changes;
 
-typedef struct Gradient
-{
-    vector_t * g;
+typedef struct Gradient {
+  vector_t *g;
 } gradient_t;
 
-
 void Init(param_t *(&p), int nCells, int Nm);
-void set_gran(Mesh mesh);
+void set_gran(Mesh &mesh);
 
 void Yw(Mesh mesh, Cell *cells, int nCells);
+// void Viscous(param_t *p, changes *du, Mesh mesh, Cell *cells, double dt)
 void Viscous(param_t *(&p), changes *du, Mesh mesh, Cell *cells, double dt);
 void Convect(param_t *(&p), changes *du, Mesh mesh, Cell *cells, int it,
              double dt);
 
-void Gradients(Cell * cells, Mesh mesh, gradient_t gr, param_t *(&p), int Nm);
+void Gradients(Cell *cells, Mesh mesh, gradient_t gr, param_t *(&p), int Nm);
 
 void get_params(param_t *(&p), int nCells, int Nm);
 

@@ -57,7 +57,7 @@ void Init(param_t *(&p), int nCells, int Nm) {
   }
 }
 
-void Viscous(param_t *p, changes *du, Mesh mesh, Cell *cells, double dt) {
+void Viscous(param_t *(&p), changes *du, Mesh mesh, Cell *cells, double dt) {
   int nFaces = mesh.nFaces;
 
   for (int i = 0; i < nFaces; i++) {
@@ -86,14 +86,11 @@ void Viscous(param_t *p, changes *du, Mesh mesh, Cell *cells, double dt) {
 
       int z = face.zone;
 
-
-
-
       double Tw;
       if (face.zone == BOUND_Bottom)
-        Tw = 500;
+        Tw = 50000;
       if (face.zone == BOUND_Up)
-        Tw = 200;
+        Tw = 20000;
 
       if (face.zone == BOUND_Up || face.zone == BOUND_Bottom) {
         double hw = p[c].Cp * Tw;
@@ -158,7 +155,7 @@ void Viscous(param_t *p, changes *du, Mesh mesh, Cell *cells, double dt) {
   }
 }
 
-void Convect(param_t *p, changes *du, Mesh mesh, Cell *cells, int it,
+void Convect(param_t *(&p), changes *du, Mesh mesh, Cell *cells, int it,
              double dt) {
   int nFaces = mesh.nFaces;
 
@@ -190,7 +187,7 @@ void Convect(param_t *p, changes *du, Mesh mesh, Cell *cells, int it,
         double U_inlet, V_inlet, T_inlet;
         U_inlet = p[c].u;
         V_inlet = p[c].v;
-        T_inlet = 800.;
+        T_inlet = 1.e-4;
         // T_inlet = 0.;
 
         double un = U_inlet * nx + V_inlet * ny;
@@ -352,51 +349,44 @@ void get_params(param_t *(&p), int nCells, int Nm) {
   }
 }
 
+void set_gran(Mesh &mesh) {
+  zone_t *z = mesh.zones;
 
-void set_gran(Mesh& mesh) {
-    zone_t * z = mesh.zones;
+  mesh.zones[0].grantype = GranType::WALL;
+  mesh.zones[1].grantype = GranType::WALL;
+  mesh.zones[2].grantype = GranType::WALL;
+  mesh.zones[3].grantype = GranType::WALL;
 
-    mesh.zones[0].grantype = GranType::WALL;
-    mesh.zones[1].grantype = GranType::WALL;
-    mesh.zones[2].grantype = GranType::WALL;
-    mesh.zones[3].grantype = GranType::WALL;
-
-    int nZone = mesh.nZone;
-    for (int i = 0; i < nZone; i++) {
-        int tp = mesh.zones[i].grantype;
-        if (tp == GranType::WALL) {
-            mesh.zones[i].wall = new wall_t[1];
-        }
-        // if (tp == GranType::SUPERSONIC_INLET) {
-        //     // mesh.zones[i].wall = new wall_t[1];
-        // }
+  int nZone = mesh.nZone;
+  for (int i = 0; i < nZone; i++) {
+    int tp = mesh.zones[i].grantype;
+    if (tp == GranType::WALL) {
+      mesh.zones[i].wall = new wall_t[1];
     }
+    // if (tp == GranType::SUPERSONIC_INLET) {
+    //     // mesh.zones[i].wall = new wall_t[1];
+    // }
+  }
 
-    //  left
-        mesh.zones[0].wall[0].vel = Slip::NO_slip;
-        mesh.zones[0].wall[0].temp = Temp::qw;
-        mesh.zones[0].wall[0].value = 0.;
-    //  bottom
-        mesh.zones[1].wall[0].vel = Slip::NO_slip;
-        mesh.zones[1].wall[0].temp = Temp::Tw;
-        mesh.zones[1].wall[0].value = 500.;
-    //  right
-        mesh.zones[2].wall[0].vel = Slip::NO_slip;
-        mesh.zones[2].wall[0].temp = Temp::qw;
-        mesh.zones[2].wall[0].value = 0.;
-    //  up
-        mesh.zones[3].wall[0].vel = Slip::NO_slip;
-        mesh.zones[3].wall[0].temp = Temp::Tw;
-        mesh.zones[3].wall[0].value = 200.;
+  //  left
+  mesh.zones[0].wall[0].vel = Slip::NO_slip;
+  mesh.zones[0].wall[0].temp = Temp::qw;
+  mesh.zones[0].wall[0].value = 0.;
+  //  bottom
+  mesh.zones[1].wall[0].vel = Slip::NO_slip;
+  mesh.zones[1].wall[0].temp = Temp::Tw;
+  mesh.zones[1].wall[0].value = 500.;
+  //  right
+  mesh.zones[2].wall[0].vel = Slip::NO_slip;
+  mesh.zones[2].wall[0].temp = Temp::qw;
+  mesh.zones[2].wall[0].value = 0.;
+  //  up
+  mesh.zones[3].wall[0].vel = Slip::NO_slip;
+  mesh.zones[3].wall[0].temp = Temp::Tw;
+  mesh.zones[3].wall[0].value = 200.;
 }
 
-
-void Gradients(Cell * cells, Mesh mesh, gradient_t gr, param_t *(&p), int Nm) {
-    
-}
-
-
-
+void Gradients(Cell *cells, Mesh mesh, gradient_t gr, param_t *(&p), int Nm) {}
 
 void plot(param_t *(&p), Cell *cells, int Nx, int Ny, int nCells) {
   string fname = "../output/out_data.csv";

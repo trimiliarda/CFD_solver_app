@@ -74,10 +74,9 @@ typedef struct Zone {
   //  1.  Wall    2.  Supersonic inlet    3.  Symmetry
   //  4.  Supersonic Outlet    5.  Free boundary
   //  6.  Subsonic Inlet  7. Subsonic Outlet
-  wall_t * wall;
+  wall_t *wall;
 
 } zone_t;
-
 
 class Mesh {
 private:
@@ -99,7 +98,5 @@ public:
   void create_faces();
   void cell_funcs(Cell *(&cells));
   void set_zones();
-  void grad_coeffs(Cell * (&cells));
-
+  void grad_coeffs(Cell *(&cells));
 };
-

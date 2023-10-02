@@ -145,70 +145,65 @@ void Mesh::create_faces() {
   }
 }
 
+void Mesh::grad_coeffs(Cell *(&cells)) {
+  for (int i = 0; i < nCells; i++) {
+    int nFaces = cells[i].get_nFaces();
 
-  void Mesh::grad_coeffs(Cell * (&cells)) 
-  {
-    for (int i = 0; i < nCells; i++) {
-      int nFaces = cells[i].get_nFaces();
+    //  создаём массивы весовых коэффициентов wk и векторов ck
+    cells[i].wk = new double[nFaces];
+    cells[i].ck = new vector_t[nFaces];
 
-      //  создаём массивы весовых коэффициентов wk и векторов ck
-      cells[i].wk = new double[nFaces];
-      cells[i].ck = new vector_t[nFaces];
+    int i_dim = 2;
 
-      int i_dim = 2;
-
-      for (int k = 0; k < nFaces; k++) {
-        cells[i].ck[k].cx = new double[i_dim];
-      }
-
-      point_t xc = cells[i].get_c();
-
-      double * dx = new double[nFaces];
-      double * dy = new double[nFaces];
-
-      double axx = 0., axy = 0., ayy = 0.;
-
-      for (int k = 0; k < nFaces; k++) {
-        int nf = cells[i].get_Face(k);
-        if ( !faces[nf].is_bound) {
-          int nc = cells[i].get_Cell(k);
-          point_t xk = cells[i].get_c();
-
-          dx[k] = xk.x - xc.x;
-          dy[k] = xk.y - xc.y;
-
-        } else {
-          
-          point_t xk = faces[nf].f_centr;
-
-          dx[k] = xk.x - xc.x;
-          dy[k] = xk.y - xc.y;
-        }
-
-        double wk = 1. / sqrt(dx[k] * dx[k] + dy[k] * dy[k]);
-        cells[i].wk[k] = wk;
-
-        axx += wk * dx[k] * dx[k];
-        axy += wk * dx[k] * dy[k];
-        ayy += wk * dy[k] * dy[k];
-
-      }
-
-      double det = axx * ayy - axy * axy;
-      double Mxx, Mxy, Myy;
-
-      Mxx = ayy / det;
-      Mxy = -axy / det;
-      Myy = axx / det;
-
-      for (int k = 0; k < nFaces; k++){
-        cells[i].ck[k].cx[0] = Mxx * dx[k] + Mxy * dy[k];
-        cells[i].ck[k].cx[1] = Mxy * dx[k] + Myy * dy[k];
-      }
-
+    for (int k = 0; k < nFaces; k++) {
+      cells[i].ck[k].cx = new double[i_dim];
     }
 
+    point_t xc = cells[i].get_c();
+
+    double *dx = new double[nFaces];
+    double *dy = new double[nFaces];
+
+    double axx = 0., axy = 0., ayy = 0.;
+
+    for (int k = 0; k < nFaces; k++) {
+      int nf = cells[i].get_Face(k);
+      if (!faces[nf].is_bound) {
+        int nc = cells[i].get_Cell(k);
+        point_t xk = cells[i].get_c();
+
+        dx[k] = xk.x - xc.x;
+        dy[k] = xk.y - xc.y;
+
+      } else {
+
+        point_t xk = faces[nf].f_centr;
+
+        dx[k] = xk.x - xc.x;
+        dy[k] = xk.y - xc.y;
+      }
+
+      double wk = 1. / sqrt(dx[k] * dx[k] + dy[k] * dy[k]);
+      cells[i].wk[k] = wk;
+
+      axx += wk * dx[k] * dx[k];
+      axy += wk * dx[k] * dy[k];
+      ayy += wk * dy[k] * dy[k];
+    }
+
+    double det = axx * ayy - axy * axy;
+    double Mxx, Mxy, Myy;
+
+    Mxx = ayy / det;
+    Mxy = -axy / det;
+    Myy = axx / det;
+
+    for (int k = 0; k < nFaces; k++) {
+      cells[i].ck[k].cx[0] = Mxx * dx[k] + Mxy * dy[k];
+      cells[i].ck[k].cx[1] = Mxy * dx[k] + Myy * dy[k];
+    }
   }
+}
 
 void Mesh::set_zones() {
   nZone = 4;
